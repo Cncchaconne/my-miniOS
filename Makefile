@@ -6,13 +6,20 @@ OBJS = \
 
 QEMU = qemu-system-riscv64
 
-CFLAGS = -ffreestanding -nostdlib
+CC = riscv64-linux-gnu-gcc
+AS = riscv64-linux-gnu-as
+LD = riscv64-linux-gnu-ld
 
-$K/kernel: $K/main.c
-	riscv64-linux-gnu-gcc $K/main.c $(CFLAGS) -g -o $K/kernel.o
-	riscv64-linux-gnu-ld $K/kernel.o -T $K/kernel.ld -o $K/kernel
+CFLAGS = -ffreestanding -nostdlib -g
 
-QEMUOPTIONS = -machine virt -bios none -kernel $K/kernel -m 128M
+$K/kernel: $(OBJS) $K/kernel.ld
+	$(LD) -T $K/kernel.ld -o $K/kernel $(OBJS)
+
+
+QEMUOPTIONS = -machine virt -bios none -kernel $K/kernel -m 128M -gdb tcp::1234
+
+tags: $(OBJS)
+	etags *.s *.c
 
 clean:
 	rm -f $K/kernel
