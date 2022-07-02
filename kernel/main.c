@@ -1,4 +1,6 @@
 
+__attribute__ ((aligned (16))) char stack0[4096 * 8];
+
 int main()
 {
     int a = 1;
