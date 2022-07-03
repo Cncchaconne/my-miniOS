@@ -1,7 +1,8 @@
+#include "uart.h"
 
 #define CPUS 8
 
-__attribute__ ((aligned (16))) char stack0[4096 * CPUS];
+__attribute__((aligned(16))) char stack0[4096 * CPUS];
 
 int main()
 {
@@ -9,7 +10,7 @@ int main()
     int b = 1;
 
     int c;
-    while(1)
+    while (1)
     {
         c = a + b;
     }

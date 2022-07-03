@@ -2,7 +2,8 @@ K = kernel
 
 OBJS = \
 	$K/entry.o \
-	$K/main.o
+	$K/main.o  \
+	$K/uart.o
 
 QEMU = qemu-system-riscv64
 
@@ -18,7 +19,7 @@ $K/kernel: $(OBJS) $K/kernel.ld
 	$(OBJDUMP) -S $K/kernel > $K/kernel.asm
 
 
-QEMUOPTIONS = -machine virt -bios none -kernel $K/kernel -m 128M -gdb tcp::1234
+QEMUOPTIONS = -machine virt -bios none -kernel $K/kernel -m 128M 
 
 tags: $(OBJS)
 	etags *.s *.c
@@ -33,3 +34,5 @@ qemu: $K/kernel
 
 qemu-gdb: $K/kernel
 	@echo "Please run gdb in another window."
+	$(QEMU) $(QEMUOPTIONS) -gdb tcp::1234
+
