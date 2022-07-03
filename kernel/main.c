@@ -1,5 +1,7 @@
 
-__attribute__ ((aligned (16))) char stack0[4096 * 8];
+#define CPUS 8
+
+__attribute__ ((aligned (16))) char stack0[4096 * CPUS];
 
 int main()
 {

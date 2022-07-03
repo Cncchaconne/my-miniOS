@@ -9,11 +9,13 @@ QEMU = qemu-system-riscv64
 CC = riscv64-linux-gnu-gcc
 AS = riscv64-linux-gnu-as
 LD = riscv64-linux-gnu-ld
+OBJDUMP = riscv64-linux-gnu-objdump
 
-CFLAGS = -ffreestanding -nostdlib -g
+CFLAGS = -ffreestanding -nostdlib -ggdb
 
 $K/kernel: $(OBJS) $K/kernel.ld
 	$(LD) -T $K/kernel.ld -o $K/kernel $(OBJS)
+	$(OBJDUMP) -S $K/kernel > $K/kernel.asm
 
 
 QEMUOPTIONS = -machine virt -bios none -kernel $K/kernel -m 128M -gdb tcp::1234
@@ -24,6 +26,7 @@ tags: $(OBJS)
 clean:
 	rm -f $K/kernel
 	rm -f $K/*.o
+	rm -f $K/*.asm
 
 qemu: $K/kernel
 	$(QEMU) $(QEMUOPTIONS)
