@@ -21,6 +21,8 @@ static inline uint64 read_mhartid()
 // at first your machine is in machine status
 // mstatus store many status
 
+#define MSTATUS_MIE     (1L << 3)    
+
 static inline uint64 read_mstatus()
 {
     uint64 x;
@@ -32,6 +34,15 @@ static inline uint64 read_mstatus()
 static inline void write_mstatus(uint64 x)
 {
     asm volatile("csrw mstatus, %0"
+                 :
+                 : "r"(x));
+}
+
+// mepc register store the Except call
+
+static inline void write_mepc(uint64 x)
+{
+    asm volatile("csrw mepc, %0"
                  :
                  : "r"(x));
 }

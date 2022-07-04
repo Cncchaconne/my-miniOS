@@ -14,5 +14,5 @@ _entry:
     addi a1, a1, 1
     mul a0, a0, a1
     add sp, sp, a0      #point to the biggest address
-    # jump to main() in main.c
-    call main
+    # jump to start in start.c to inital
+    call start

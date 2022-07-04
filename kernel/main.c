@@ -1,21 +1,17 @@
 #include "uart.h"
+#include "defs.h"
 
-#define CPUS 8
+#define DEBUG   0
+
+#define CPUS    8
 
 __attribute__((aligned(16))) char stack0[4096 * CPUS];
 
-void temporaryPrint(char *str)
+// the start() function jump here.
+// and change the M model to S mode
+void main()
 {
-    uartinit();
-    for (int i = 0; str[i] != '\0'; i++)
-    {
-        uartputc((int)str[i]);
-    }
-}
-
-int main()
-{
-    temporaryPrint("hello, world\n");
+    temporaryPrint("Here is in the main function\n");
     while (1)
     {
     }
