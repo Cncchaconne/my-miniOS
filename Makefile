@@ -19,7 +19,7 @@ $K/kernel: $(OBJS) $K/kernel.ld
 	$(OBJDUMP) -S $K/kernel > $K/kernel.asm
 
 
-QEMUOPTIONS = -machine virt -bios none -kernel $K/kernel -m 128M 
+QEMUOPTIONS = -machine virt -bios none -kernel $K/kernel -m 128M -nographic
 
 tags: $(OBJS)
 	etags *.s *.c
