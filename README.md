@@ -4,6 +4,8 @@
 
 ## 参考资料
 - xv6-riscv ：https://github.com/mit-pdos/xv6-riscv
+- riscv中文手册 ：http://riscvbook.com/chinese/RISC-V-Reader-Chinese-v2p1.pdf 
+- 大佬的博客 ：https://dingfen.github.io/
 
 ## manjaro 环境配置
 ```

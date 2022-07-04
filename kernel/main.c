@@ -4,15 +4,19 @@
 
 __attribute__((aligned(16))) char stack0[4096 * CPUS];
 
+void temporaryPrint(char *str)
+{
+    uartinit();
+    for (int i = 0; str[i] != '\0'; i++)
+    {
+        uartputc((int)str[i]);
+    }
+}
+
 int main()
 {
-    char p = 'h';
-    uartinit();
-    uartputc(p);
-    char i = 'i';
-    uartputc(i);
-    while(1)
+    temporaryPrint("hello, world\n");
+    while (1)
     {
-
     }
 }
