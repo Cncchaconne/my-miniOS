@@ -1,9 +1,10 @@
 #include "uart.h"
 #include "defs.h"
+#include "riscv.h"
 
-#define DEBUG   0
+#define DEBUG 0
 
-#define CPUS    8
+#define CPUS 4
 
 __attribute__((aligned(16))) char stack0[4096 * CPUS];
 
@@ -11,8 +12,19 @@ __attribute__((aligned(16))) char stack0[4096 * CPUS];
 // and change the M model to S mode
 void main()
 {
-    temporaryPrint("Here is in the main function\n");
-    while (1)
+
+    if (read_mhartid() == 0)
     {
+        temporaryPrint("Here is in the main function\n");
+        temporaryPrint("Start init\n");
+        while (1)
+        {
+        }
+    }
+    else
+    {
+        while (1)
+        {
+        }
     }
 }

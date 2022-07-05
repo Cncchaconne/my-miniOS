@@ -4,6 +4,9 @@
 #ifndef UART_H
 #define UART_H
 
+// add spinlock to the uart
+#include "spinlock.h"
+
 #define UART_BASE 0x10000000L
 
 // the base address add some offset can visit the register
@@ -29,6 +32,7 @@
 
 #define IER_RX_ENABLE       (1 << 0)
 #define IER_TX_ENABLE       (1 << 1)
+
 
 
 // register operation

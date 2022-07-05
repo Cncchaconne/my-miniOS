@@ -1,5 +1,7 @@
 #include "uart.h"
 
+struct spinlock uartlock;
+
 // register operation improve efficiency
 // use inline to
 inline volatile unsigned char *Reg(int reg)
@@ -45,18 +47,21 @@ void uartinit()
 
     // enable transmit and receive interrupts
     WriteReg(UART_IER, IER_RX_ENABLE | IER_TX_ENABLE);
+
+    // init the uart spin lock
+    initSpinlock(&uartlock);
 }
 
 // I/O operation
 void uartputc(int c)
 {
     // the THR register store the charater to transmit
-    // and read the 5th bit of LSR to know the THR empty or not. 
+    // and read the 5th bit of LSR to know the THR empty or not.
+    acquire(&uartlock); 
     while (ReadReg(UART_LSR) & (1 << 5) == 0)
-    {
-        // nothing
-    }
+        ;
     WriteReg(UART_THR, c);
+    release(&uartlock);
 }
 
 int uartgetc()

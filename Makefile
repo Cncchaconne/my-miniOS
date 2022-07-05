@@ -1,11 +1,12 @@
 K = kernel
 
 OBJS = \
-	$K/entry.o \
-	$K/main.o  \
-	$K/uart.o  \
-	$K/start.o \
-	$K/printf.o
+	$K/entry.o 	\
+	$K/main.o  	\
+	$K/spinlock.o\
+	$K/uart.o  	\
+	$K/start.o 	\
+	$K/printf.o \
 
 QEMU = qemu-system-riscv64
 
@@ -21,7 +22,12 @@ $K/kernel: $(OBJS) $K/kernel.ld
 	$(OBJDUMP) -S $K/kernel > $K/kernel.asm
 
 
+ifndef CPUS
+CPUS := 4
+endif
+
 QEMUOPTIONS = -machine virt -bios none -kernel $K/kernel -m 128M -nographic
+QEMUOPTIONS += -smp $(CPUS)
 
 tags: $(OBJS)
 	etags *.s *.c
