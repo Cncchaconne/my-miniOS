@@ -13,9 +13,9 @@ __attribute__((aligned(16))) char stack0[4096 * CPUS];
 void main()
 {
 
+    temporaryPrint("Here is in the main function\n");
     if (read_mhartid() == 0)
     {
-        temporaryPrint("Here is in the main function\n");
         temporaryPrint("Start init\n");
         while (1)
         {

@@ -29,6 +29,8 @@ endif
 QEMUOPTIONS = -machine virt -bios none -kernel $K/kernel -m 128M -nographic
 QEMUOPTIONS += -smp $(CPUS)
 
+QEMUGDB = -gdb tcp::1234
+
 tags: $(OBJS)
 	etags *.s *.c
 
@@ -42,5 +44,5 @@ qemu: $K/kernel
 
 qemu-gdb: $K/kernel
 	@echo "Please run gdb in another window."
-	$(QEMU) $(QEMUOPTIONS) -gdb tcp::1234
+	$(QEMU) $(QEMUOPTIONS) -S $(QEMUGDB)
 

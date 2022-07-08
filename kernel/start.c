@@ -7,6 +7,6 @@ void main();
 void start()
 {
     // mret is the return of the M mode
-    temporaryPrint("Here is in the start function\n");
+    // temporaryPrint("Here is in the start function\n");
     asm volatile("call main");
 }
