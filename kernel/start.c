@@ -10,3 +10,10 @@ void start()
     // temporaryPrint("Here is in the start function\n");
     asm volatile("call main");
 }
+
+
+// init timer interrupt
+void timeinit()
+{
+
+}
