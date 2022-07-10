@@ -12,6 +12,7 @@
 // read mhartid to find out which core is used.
 // csrr : read the status register and store the value.
 // mhartid : a register which store the CPU id.
+// can not enter in supervisor mode
 static inline uint64 read_mhartid()
 {
     uint64 x;
@@ -23,15 +24,14 @@ static inline uint64 read_mhartid()
 // Machine Status Register, mstatus
 // at first your machine is in machine status
 // mstatus store many status in machine status
-// mstatus mpp[12:11] is two nits wide and decide the next mode 
+// mstatus mpp[12:11] is two nits wide and decide the next mode
 // User mode 00 Supervisor mode 01 machine mode 11
 
-#define MSTATUS_MPP_MASK    (3L << 11) // previous mode.
-#define MSTATUS_MIE     (1L << 3)    
-#define MSTATUS_MPP_M   (3L << 11)
-#define MSTATUS_MPP_S   (1L << 11)
-#define MSTATUS_MPP_U   (0L << 11)
-
+#define MSTATUS_MPP_MASK (3L << 11) // previous mode.
+#define MSTATUS_MIE (1L << 3)
+#define MSTATUS_MPP_M (3L << 11)
+#define MSTATUS_MPP_S (1L << 11)
+#define MSTATUS_MPP_U (0L << 11)
 
 static inline uint64 read_mstatus()
 {
@@ -40,7 +40,6 @@ static inline uint64 read_mstatus()
                  : "=r"(x));
     return x;
 }
-
 
 // csrw write the control and status register
 static inline void write_mstatus(uint64 x)
@@ -64,7 +63,7 @@ static inline void write_mepc(uint64 x)
 // this two registes are used here.
 // machine tarp delegation register (medeleg and mideleg)
 // medeleg :: machine exception delegation
-// mideleg :: machine interrupt delegation 
+// mideleg :: machine interrupt delegation
 static inline uint64 read_medeleg()
 {
     uint64 x;
@@ -96,16 +95,62 @@ static inline void write_mideleg(uint64 x)
 }
 
 // machine interrupt register (mip and mie)
-// mip and mie are both 
+// mip and mie are both
 
-// machine timer registers 
+// machine timer registers
 // they provide some timer in the machine
 
+// PMP physical manage
+static inline void write_pmpcfg0(uint64 x)
+{
+    asm volatile("csrw pmpcfg0, %0"
+                 :
+                 : "r"(x));
+}
 
+static inline void write_pmpaddr0(uint64 x)
+{
+    asm volatile("csrw pmpaddr0, %0"
+                 :
+                 : "r"(x));
+}
 
 // supervisor operation
 
+// supervisor address translation and protection;
+// satp register
+static inline void write_satp(uint64 x)
+{
+    asm volatile("csrw satp, %0"
+                 :
+                 : "r"(x));
+}
+
+static inline uint64 read_satp()
+{
+    uint64 x;
+    asm volatile("csrr %0, satp"
+                 : "=r"(x));
+    return x;
+}
+
+// read and wirte tp, the thread pointer, which hold
+// this core's hartid(core number)
+static inline uint64 read_tp()
+{
+    uint64 x;
+    asm volatile("mv %0, tp"
+                 : "=r"(x));
+    return x;
+}
+
+static inline void write_tp(uint64 x)
+{
+    asm volatile("mv tp, %0"
+                 :
+                 : "r"(x));
+}
 // memory setting
-#define PGSIZE 4096     // bytes per page
+#define PGSIZE 4096 // bytes per page
 
 #endif

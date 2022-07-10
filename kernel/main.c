@@ -14,19 +14,12 @@ volatile static int started = 0;
 // and change the M model to S mode
 void main()
 {
-
-    if (read_mhartid() == 0)
+    if (read_tp() == 0)
     {
         printinit();
         temporaryPrint("This is main function!\n");
         printf("This is the printf output!\n");
-        uint64 x = read_mstatus();
-        x &= MSTATUS_MPP_MASK;
-        if (x == MSTATUS_MPP_S)
-        {
-            temporaryPrint("main hart run in supervisor mode\n");
-        }
-        int id = read_mhartid();
+        int id = read_tp();
         printf("The hart id == %d\n", id);
         started = 1;
     }
@@ -37,7 +30,7 @@ void main()
 
         char hello[] = "This is other hart!\n";
         printf("%s", hello);
-        int id = read_mhartid();
+        int id = read_tp();
         printf("The hart id == %d\n", id);
     }
 
