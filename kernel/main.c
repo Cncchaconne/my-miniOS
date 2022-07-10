@@ -12,11 +12,14 @@ __attribute__((aligned(16))) char stack0[4096 * CPUS];
 // and change the M model to S mode
 void main()
 {
-
-    temporaryPrint("Here is in the main function\n");
     if (read_mhartid() == 0)
     {
-        temporaryPrint("Start init\n");
+        uint64 x = read_mstatus();
+        x &= MSTATUS_MPP_MASK;
+        if(x == MSTATUS_MPP_S)
+        {
+            temporaryPrint("Supervisor mode\n");
+        }
         while (1)
         {
         }

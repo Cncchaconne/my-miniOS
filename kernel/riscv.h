@@ -26,6 +26,7 @@ static inline uint64 read_mhartid()
 // mstatus mpp[12:11] is two nits wide and decide the next mode 
 // User mode 00 Supervisor mode 01 machine mode 11
 
+#define MSTATUS_MPP_MASK    (3L << 11) // previous mode.
 #define MSTATUS_MIE     (1L << 3)    
 #define MSTATUS_MPP_M   (3L << 11)
 #define MSTATUS_MPP_S   (1L << 11)
@@ -50,7 +51,7 @@ static inline void write_mstatus(uint64 x)
 }
 
 // mepc register store the Except call
-
+// which return by mret
 static inline void write_mepc(uint64 x)
 {
     asm volatile("csrw mepc, %0"
@@ -58,6 +59,9 @@ static inline void write_mepc(uint64 x)
                  : "r"(x));
 }
 
+// usually, the interrupts are processed in machine mode
+// but sometimes, some interrupt are delegated to supervisor mode
+// this two registes are used here.
 // machine tarp delegation register (medeleg and mideleg)
 // medeleg :: machine exception delegation
 // mideleg :: machine interrupt delegation 

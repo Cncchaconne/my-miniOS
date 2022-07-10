@@ -15,7 +15,7 @@ AS = riscv64-linux-gnu-as
 LD = riscv64-linux-gnu-ld
 OBJDUMP = riscv64-linux-gnu-objdump
 
-CFLAGS = -ffreestanding -nostdlib -ggdb
+CFLAGS = -ffreestanding -nostdlib -ggdb -mcmodel=medany
 
 $K/kernel: $(OBJS) $K/kernel.ld
 	$(LD) -T $K/kernel.ld -o $K/kernel $(OBJS)
