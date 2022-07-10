@@ -105,5 +105,7 @@ static inline void write_mideleg(uint64 x)
 
 // supervisor operation
 
-//
+// memory setting
+#define PGSIZE 4096     // bytes per page
+
 #endif

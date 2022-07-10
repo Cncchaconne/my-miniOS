@@ -7,10 +7,14 @@
 struct spinlock printlock;
 
 // qemu simulator don't need to init the device
-void temporaryPrint(char *str)
+void printinit()
 {
     uartinit();
     initSpinlock(&printlock);
+}
+
+void temporaryPrint(char *str)
+{
     acquire(&printlock);
     for (int i = 0; str[i] != '\0'; i++)
     {

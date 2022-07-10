@@ -12,6 +12,8 @@ __attribute__((aligned(16))) char stack0[4096 * CPUS];
 // and change the M model to S mode
 void main()
 {
+    printinit();
+    temporaryPrint("This is main function!\n");
     if (read_mhartid() == 0)
     {
         uint64 x = read_mstatus();

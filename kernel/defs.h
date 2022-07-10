@@ -3,7 +3,15 @@
 #ifndef DEFS_H
 #define DEFS_H
 
-//printf.c
+#include "types.h"
+
+// printf.c
+void printinit();
 void temporaryPrint(char *str);
+
+
+// string.c
+void *memset(void *str, int c, uint n);
+int strlen(const char *s);
 
 #endif
