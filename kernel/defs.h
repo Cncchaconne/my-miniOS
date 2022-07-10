@@ -8,7 +8,7 @@
 // printf.c
 void printinit();
 void temporaryPrint(char *str);
-
+void printf(const char *fmt, ...);
 
 // string.c
 void *memset(void *str, int c, uint n);
