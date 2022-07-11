@@ -7,6 +7,8 @@ OBJS = \
 	$K/uart.o  	\
 	$K/start.o 	\
 	$K/printf.o \
+	$K/kalloc.o \
+	$K/string.o
 
 QEMU = qemu-system-riscv64
 

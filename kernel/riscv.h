@@ -152,5 +152,20 @@ static inline void write_tp(uint64 x)
 }
 // memory setting
 #define PGSIZE 4096 // bytes per page
+#define PGSHIFT 12  // bits of offset with a page
+
+// memory alignment up or down
+// The address offset is rounded and aligned
+// search from internet
+// magic algorithm
+#define PGROUNDUP(a)    (((a) + PGSIZE - 1) & ~(PGSIZE - 1))
+#define PGROUNDDOWN(a)  (((a)) & ~(PGSIZE-1))
+
+// PTE 
+#define PTE_V   (1L << 0)   // valid
+#define PTE_R   (1L << 1)   // read
+#define PTE_W   (1L << 2)   // write
+#define PTE_X   (1L << 3)   
+#define PTE_U   (1L << 4)   // user can access
 
 #endif

@@ -76,7 +76,7 @@ static void printint(int num, int base)
     // after finish, i always ++
     // and we must sub 1 for the correct i.
     i -= 1;
-    
+
     while (i >= 0)
     {
         uartputc(buf[i]);
@@ -86,7 +86,7 @@ static void printint(int num, int base)
 
 // Uncertain parameters programing
 // the implement of the kernel output
-// to the screen directly 
+// to the screen directly
 // now is understand %d %x %s
 void printf(const char *fmt, ...)
 {
@@ -104,7 +104,7 @@ void printf(const char *fmt, ...)
 
     if (fmt == 0)
     {
-        return ;
+        return;
     }
 
     // init va_list
@@ -134,9 +134,9 @@ void printf(const char *fmt, ...)
             printint(va_arg(ap, int), 16);
             break;
         case 's':
-            if((s = va_arg(ap, char *)) == 0)
+            if ((s = va_arg(ap, char *)) == 0)
                 s = "(null)";
-            for(; *s; s++)
+            for (; *s; s++)
                 uartputc((int)*s);
             break;
         default:

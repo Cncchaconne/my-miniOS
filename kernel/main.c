@@ -17,10 +17,11 @@ void main()
     if (read_tp() == 0)
     {
         printinit();
-        temporaryPrint("This is main function!\n");
+        printf("This is the main function");
         printf("This is the printf output!\n");
         int id = read_tp();
         printf("The hart id == %d\n", id);
+        kinit();
         started = 1;
     }
     else
