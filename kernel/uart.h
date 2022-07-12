@@ -6,8 +6,10 @@
 
 // add spinlock to the uart
 #include "spinlock.h"
-
-#define UART_BASE 0x10000000L
+// move the UAET_BASE to memory.h to mamnge the
+// hardware address mapping.
+#include "memory.h"
+// #define UART_BASE 0x10000000L
 
 // the base address add some offset can visit the register
 #define UART_RHR    0

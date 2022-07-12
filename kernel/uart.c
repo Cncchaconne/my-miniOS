@@ -49,7 +49,7 @@ void uartinit()
     WriteReg(UART_IER, IER_RX_ENABLE | IER_TX_ENABLE);
 
     // init the uart spin lock
-    initSpinlock(&uartlock);
+    initlock(&uartlock);
 }
 
 // I/O operation

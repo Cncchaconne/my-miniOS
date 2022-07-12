@@ -1,6 +1,6 @@
 #include "spinlock.h"
 
-void initSpinlock(struct spinlock *lock)
+void initlock(struct spinlock *lock)
 {
     lock->locked = 0;
 }

@@ -4,6 +4,9 @@
 #ifndef MEMORY_H
 #define MEMORY_H
 
+// this is the UART start address from memory
+#define UART_BASE 0x10000000L
+
 // the -kernel option put the kernel in the 0x80000000L
 // the -m 128M option make this machine has 128M memory
 #define KERNEL_BASE 0x80000000L

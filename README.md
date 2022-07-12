@@ -9,7 +9,7 @@
 - 大佬的博客 ：https://dingfen.github.io/
 - 大佬的博客 ：http://www.databusworld.cn/author/3/page/6/
 - virt平台主要参考（参考U540平台）：https://sifive.cdn.prismic.io/sifive/d3ed5cd0-6e74-46b2-a12d-72b06706513e_fu540-c000-manual-v1p4.pdf
-
+- 其他学校的实验手册 ：https://rcore-os.github.io/rCore-Tutorial-deploy/docs/lab-3/guide/part-1.html
 ## manjaro 环境配置
 ```
 sudo pacman -S riscv64-linux-gnu-binutils riscv64-linux-gnu-gcc riscv64-linux-gnu-gdb qemu-arch-extra

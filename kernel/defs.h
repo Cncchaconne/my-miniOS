@@ -20,4 +20,7 @@ void printf(const char *fmt, ...);
 void *memset(void *str, int c, uint n);
 int strlen(const char *s);
 
+// kernel visual memory alloc and mapping
+// kvm.c
+
 #endif

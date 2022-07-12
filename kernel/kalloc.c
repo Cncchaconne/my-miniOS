@@ -23,7 +23,7 @@ struct
 
 void kinit()
 {
-    initSpinlock(&kmem.alloclock);
+    initlock(&kmem.alloclock);
     initlist(end, (void *)PHYSTOP);
 }
 

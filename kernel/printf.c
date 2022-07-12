@@ -16,7 +16,7 @@ static struct
 void printinit()
 {
     uartinit();
-    initSpinlock(&pr.lock);
+    initlock(&pr.lock);
     pr.locking = 1;
 }
 

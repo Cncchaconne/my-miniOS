@@ -11,7 +11,7 @@ struct spinlock{
 };
 
 // init the lock
-void initSpinlock(struct spinlock *lock);
+void initlock(struct spinlock *lock);
 
 // Acquire the lock
 void acquire(struct spinlock *lock);

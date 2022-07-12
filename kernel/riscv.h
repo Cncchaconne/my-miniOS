@@ -154,6 +154,10 @@ static inline void write_tp(uint64 x)
 #define PGSIZE 4096 // bytes per page
 #define PGSHIFT 12  // bits of offset with a page
 
+// use riscv sv39 page table scheme
+// when stap mask == 8 mean that use sv39
+#define SATP_SV39   (8L << 60)
+
 // memory alignment up or down
 // The address offset is rounded and aligned
 // search from internet
@@ -165,7 +169,14 @@ static inline void write_tp(uint64 x)
 #define PTE_V   (1L << 0)   // valid
 #define PTE_R   (1L << 1)   // read
 #define PTE_W   (1L << 2)   // write
-#define PTE_X   (1L << 3)   
+#define PTE_X   (1L << 3)   // executable
 #define PTE_U   (1L << 4)   // user can access
+// there some appointer for the value of the register
+// if R,W,X == 0 than this PTE point to next PTE
+
+// define the data of pte and pagetable
+typedef uint64 pte_t;   // 64bits
+// the size of a page table is the same of a physical page
+typedef uint64 *pagetable_t;    // have 512 ptes
 
 #endif
