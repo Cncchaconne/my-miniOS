@@ -150,6 +150,14 @@ static inline void write_tp(uint64 x)
                  :
                  : "r"(x));
 }
+
+// flush the TLB
+static inline void sfence_vma()
+{
+    // zero means flush all TLB
+    asm volatile("sfence.vma zero, zero");
+}
+
 // memory setting
 #define PGSIZE 4096 // bytes per page
 #define PGSHIFT 12  // bits of offset with a page
@@ -178,5 +186,36 @@ static inline void write_tp(uint64 x)
 typedef uint64 pte_t;   // 64bits
 // the size of a page table is the same of a physical page
 typedef uint64 *pagetable_t;    // have 512 ptes
+
+// use SV39 theme to the address
+#define SATP_SV39 (8L << 60)
+
+#define MAKE_SATP(pagetable) (SATP_SV39 | (((uint64)pagetable) >> 12))
+
+// get the 9 bits of the page number from the visual address
+// va : visual address
+static inline uint64 indices(uint64 va, int level)
+{
+    // 9 bits
+    uint64 mask = 0x1FF;
+
+    // calculate the shift of the level
+    int shift = PGSHIFT + (9 * level);
+
+    // return the 9 bits of number
+    va = va >> shift;
+    va &= mask;
+
+    return va;
+}
+
+// pte to physical address
+// the 10 bits of pte
+// must input pte_t pte 
+#define PTE2PA(pte) (((pte) >> 10) << 12)
+
+// physical address to pte
+// pa : physical address
+#define PA2PTE(pa) ((((uint64)pa) >> 12) << 10)
 
 #endif

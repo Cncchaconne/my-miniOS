@@ -4,6 +4,7 @@
 #define DEFS_H
 
 #include "types.h"
+#include "riscv.h"
 
 // physical memory alloc
 // kalloc.c
@@ -22,5 +23,10 @@ int strlen(const char *s);
 
 // kernel visual memory alloc and mapping
 // kvm.c
+void kvminit();
+pagetable_t kvmmake();
+void kvminithart();
+int mapping(pagetable_t pagetable, uint64 pa, uint64 va, uint64 size, int pte_param);
+pte_t *walk(pagetable_t pagetable, uint64 va, int alloc);
 
 #endif

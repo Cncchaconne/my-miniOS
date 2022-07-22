@@ -17,11 +17,13 @@ void main()
     if (read_tp() == 0)
     {
         printinit();
-        printf("This is the main function");
+        printf("This is the main function\n");
         printf("This is the printf output!\n");
         int id = read_tp();
         printf("The hart id == %d\n", id);
         kinit();
+        kvminit();
+        kvminithart();
         started = 1;
     }
     else

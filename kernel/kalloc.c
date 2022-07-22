@@ -54,7 +54,7 @@ void kfree(void *physical_address)
     if (((uint64)physical_address % PGSIZE) != 0 || (char *)physical_address < end || (uint64)physical_address >= PHYSTOP)
         return;
 
-    memset(physical_address, 0, PGSIZE);
+    //memset(physical_address, 0, PGSIZE);
 
     ret = (struct pageNode *)physical_address;
 
@@ -80,6 +80,6 @@ void *kalloc(void)
     release(&kmem.alloclock);
 
     if(ret)
-        memset((char *)ret, 1, PGSIZE);
+        //memset((char *)ret, 1, PGSIZE);
     return (void *)ret;
 }
