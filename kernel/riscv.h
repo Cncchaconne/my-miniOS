@@ -119,6 +119,7 @@ static inline void write_pmpaddr0(uint64 x)
 
 // supervisor address translation and protection;
 // satp register
+// this register is used to be control the page
 static inline void write_satp(uint64 x)
 {
     asm volatile("csrw satp, %0"
@@ -155,6 +156,7 @@ static inline void write_tp(uint64 x)
 static inline void sfence_vma()
 {
     // zero means flush all TLB
+    // TLB is a cache must maintain consistency with the page table
     asm volatile("sfence.vma zero, zero");
 }
 
@@ -190,6 +192,7 @@ typedef uint64 *pagetable_t;    // have 512 ptes
 // use SV39 theme to the address
 #define SATP_SV39 (8L << 60)
 
+// enable paging
 #define MAKE_SATP(pagetable) (SATP_SV39 | (((uint64)pagetable) >> 12))
 
 // get the 9 bits of the page number from the visual address

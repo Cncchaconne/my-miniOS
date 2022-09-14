@@ -41,7 +41,13 @@ pagetable_t kvmmake()
 
 void kvminithart()
 {
+    // flush TLB
+    sfence_vma();
+
+    // enale 
     write_satp(MAKE_SATP(kernel_pagetable));
+
+    // flush TLB
     sfence_vma();
 }
 

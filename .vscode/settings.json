@@ -1,6 +1,8 @@
 {
     "files.associations": {
         "spinlock.h": "c",
-        "random": "c"
-    }
+        "random": "c",
+        "thread": "c"
+    },
+    "C_Cpp.errorSquiggles": "Disabled"
 }

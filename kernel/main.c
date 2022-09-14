@@ -14,7 +14,7 @@ volatile static int started = 0;
 // and change the M model to S mode
 void main()
 {
-    if (read_tp() == 0)
+    if (cpuid() == 0)
     {
         printinit();
         printf("This is the main function\n");
@@ -33,7 +33,7 @@ void main()
 
         char hello[] = "This is other hart!\n";
         printf("%s", hello);
-        int id = read_tp();
+        int id = cpuid();
         printf("The hart id == %d\n", id);
     }
 

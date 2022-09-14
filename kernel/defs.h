@@ -29,4 +29,8 @@ void kvminithart();
 int mapping(pagetable_t pagetable, uint64 pa, uint64 va, uint64 size, int pte_param);
 pte_t *walk(pagetable_t pagetable, uint64 va, int alloc);
 
+// process operate
+// proc.c
+int cpuid();
+
 #endif
