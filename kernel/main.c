@@ -18,12 +18,12 @@ void main()
     {
         printinit();
         printf("This is the main function\n");
-        printf("This is the printf output!\n");
-        int id = read_tp();
+        int id = cpuid();
         printf("The hart id == %d\n", id);
         kinit();
         kvminit();
         kvminithart();
+        procinit();
         started = 1;
     }
     else

@@ -94,8 +94,26 @@ static inline void write_mideleg(uint64 x)
                  : "r"(x));
 }
 
+// Machine-mode Interrupte Enable
+#define MIE_MEIE (1L << 11) // external
+#define MIE_MTIE (1L << 7)  // timer
+#define MIE_MSIE (1L << 3)  // software
+
 // machine interrupt register (mip and mie)
-// mip and mie are both
+static inline uint64 read_mie()
+{
+    uint64 x;
+    asm volatile("csrr %0, mie"
+                 : "=r"(x));
+    return x;
+}
+
+static inline void write_mie(uint64 x)
+{
+    asm volatile("csrw mie, %0"
+                 :
+                 : "r"(x));
+}
 
 // machine timer registers
 // they provide some timer in the machine
@@ -166,28 +184,28 @@ static inline void sfence_vma()
 
 // use riscv sv39 page table scheme
 // when stap mask == 8 mean that use sv39
-#define SATP_SV39   (8L << 60)
+#define SATP_SV39 (8L << 60)
 
 // memory alignment up or down
 // The address offset is rounded and aligned
 // search from internet
 // magic algorithm
-#define PGROUNDUP(a)    (((a) + PGSIZE - 1) & ~(PGSIZE - 1))
-#define PGROUNDDOWN(a)  (((a)) & ~(PGSIZE-1))
+#define PGROUNDUP(a) (((a) + PGSIZE - 1) & ~(PGSIZE - 1))
+#define PGROUNDDOWN(a) (((a)) & ~(PGSIZE - 1))
 
-// PTE 
-#define PTE_V   (1L << 0)   // valid
-#define PTE_R   (1L << 1)   // read
-#define PTE_W   (1L << 2)   // write
-#define PTE_X   (1L << 3)   // executable
-#define PTE_U   (1L << 4)   // user can access
+// PTE
+#define PTE_V (1L << 0) // valid
+#define PTE_R (1L << 1) // read
+#define PTE_W (1L << 2) // write
+#define PTE_X (1L << 3) // executable
+#define PTE_U (1L << 4) // user can access
 // there some appointer for the value of the register
 // if R,W,X == 0 than this PTE point to next PTE
 
 // define the data of pte and pagetable
-typedef uint64 pte_t;   // 64bits
+typedef uint64 pte_t; // 64bits
 // the size of a page table is the same of a physical page
-typedef uint64 *pagetable_t;    // have 512 ptes
+typedef uint64 *pagetable_t; // have 512 ptes
 
 // use SV39 theme to the address
 #define SATP_SV39 (8L << 60)
@@ -214,11 +232,14 @@ static inline uint64 indices(uint64 va, int level)
 
 // pte to physical address
 // the 10 bits of pte
-// must input pte_t pte 
+// must input pte_t pte
 #define PTE2PA(pte) (((pte) >> 10) << 12)
 
 // physical address to pte
 // pa : physical address
 #define PA2PTE(pa) ((((uint64)pa) >> 12) << 10)
+
+// Sv39 the max visual address (39bits)
+#define MAXVA (1L << (9 + 9 + 9 + 12 - 1))
 
 #endif

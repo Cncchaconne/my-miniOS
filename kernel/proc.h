@@ -6,7 +6,10 @@
 #include "types.h"
 #include "spinlock.h"
 
+#define NPROC 64        // maximun number of process
+
 // Per-CPU state
+// Per-CPU information
 struct cpu
 {
     struct proc *proc; // The Process running on this cpu, or null
@@ -33,6 +36,8 @@ struct proc
     int pid;    // Process ID
 
     struct proc *parent; // Parent process
+
+    uint64 kstack;        // Virtual address of kernel stack address
 };
 
 #endif

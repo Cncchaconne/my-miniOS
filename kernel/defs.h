@@ -31,6 +31,7 @@ pte_t *walk(pagetable_t pagetable, uint64 va, int alloc);
 
 // process operate
 // proc.c
+void procinit();
 int cpuid();
 
 #endif
