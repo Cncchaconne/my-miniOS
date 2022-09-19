@@ -5,6 +5,9 @@
 #ifndef RISCV_H
 #define RISCV_H
 
+// to include some constant to asm but not include function
+#ifndef __ASSEMBLER__
+
 #include "types.h"
 
 // machine mode operation
@@ -115,6 +118,23 @@ static inline void write_mie(uint64 x)
                  : "r"(x));
 }
 
+// machine mode scratch register
+// used to stored other register when it is interrupt
+static inline void write_mscratch(uint64 x)
+{
+    asm volatile("csrw mscratch, %0"
+                 :
+                 : "r"(x));
+}
+
+// machine mode timer interrupt
+static inline void write_mtvec(uint64 x)
+{
+    asm volatile("csrw mtvec, %0"
+                 :
+                 : "r"(x));
+}
+
 // machine timer registers
 // they provide some timer in the machine
 
@@ -178,6 +198,8 @@ static inline void sfence_vma()
     asm volatile("sfence.vma zero, zero");
 }
 
+#endif // __ASSEMBLER__
+
 // memory setting
 #define PGSIZE 4096 // bytes per page
 #define PGSHIFT 12  // bits of offset with a page
@@ -202,10 +224,14 @@ static inline void sfence_vma()
 // there some appointer for the value of the register
 // if R,W,X == 0 than this PTE point to next PTE
 
+#ifndef __ASSEMBLER__
+
 // define the data of pte and pagetable
 typedef uint64 pte_t; // 64bits
 // the size of a page table is the same of a physical page
 typedef uint64 *pagetable_t; // have 512 ptes
+
+#endif // __ASSEMBLER__
 
 // use SV39 theme to the address
 #define SATP_SV39 (8L << 60)
@@ -213,6 +239,7 @@ typedef uint64 *pagetable_t; // have 512 ptes
 // enable paging
 #define MAKE_SATP(pagetable) (SATP_SV39 | (((uint64)pagetable) >> 12))
 
+#ifndef __ASSEMBLER__
 // get the 9 bits of the page number from the visual address
 // va : visual address
 static inline uint64 indices(uint64 va, int level)
@@ -229,6 +256,7 @@ static inline uint64 indices(uint64 va, int level)
 
     return va;
 }
+#endif // __ASSEMBLER__
 
 // pte to physical address
 // the 10 bits of pte

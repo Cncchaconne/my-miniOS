@@ -1,8 +1,18 @@
 #include "riscv.h"
 #include "types.h"
 #include "defs.h"
+#include "memory.h"
+
+#define NCPU 8  // maximun number of CPU
 
 void main();
+void timerinit();
+
+// a scratch area pre CPU for machine-mode timer interrupts.
+uint64 timer_scratch[NCPU][5];
+
+// assembly code in kernelvec.S for machine-mode timer interrupt
+extern void timervec();
 
 void start()
 {
@@ -27,6 +37,9 @@ void start()
     // pmp config register
     write_pmpcfg0(0xf);
 
+    // ask for clock interrupts.
+    timerinit();
+
     // write each CPU's hartid in its tp register for read
     int id = read_mhartid();
     write_tp((uint64)id);
@@ -36,9 +49,31 @@ void start()
     asm volatile("mret");
 }
 
-
-// init timer interrupt
-void timeinit()
+// init timer interrupt in mechine mode
+void timerinit()
 {
+    // each CPU has a separate source of timer interrupts.
+    int id = read_mhartid();
 
+    // ask the CLINT for a timer interrupt.
+    int interval = 1000000; // cycles; about 1/10th second
+    *(uint64 *)CLINT_MTIMECMP(id) = *(uint64 *)CLINT_MTIME + interval;
+
+    // prepare information in scratch[] for timervec.Just like user trap
+    // scratch[0..2] : space for timervec to save registers.
+    // scratch[3] : address of CLINT MTIMECMP register.
+    // scratch[4] : desired interval (in cycles) between timer interrupts.
+    uint64 *scratch = &timer_scratch[id][0];
+    scratch[3] = CLINT_MTIMECMP(id);
+    scratch[4] = interval;
+    write_mscratch((uint64)scratch);
+
+    // set the machine-mode trap handler.
+    write_mtvec((uint64)timervec);
+
+    // enable machine-mode interrupts.
+    write_mstatus(read_mstatus() | MSTATUS_MIE);
+
+    // enable machine-mode timer interrupts.
+    write_mie(read_mie() | MIE_MTIE);
 }

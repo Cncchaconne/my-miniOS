@@ -20,10 +20,11 @@ void main()
         printf("This is the main function\n");
         int id = cpuid();
         printf("The hart id == %d\n", id);
-        kinit();
-        kvminit();
-        kvminithart();
-        procinit();
+        kinit();            // physical page allocator
+        kvminit();          // create kernel page table
+        kvminithart();      // turn on paging
+        procinit();         // process table
+        
         started = 1;
     }
     else
@@ -35,6 +36,7 @@ void main()
         printf("%s", hello);
         int id = cpuid();
         printf("The hart id == %d\n", id);
+        kvminithart();
     }
 
     while (1)
